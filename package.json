@@ -1,6 +1,12 @@
 {
   "dependencies": {
+    "body-parser": "^1.13.3",
+    "compression": "^1.5.2",
+    "ejs": "^2.3.3",
+    "express": "^4.13.3",
+    "fs": "0.0.2",
     "gulp": "^3.9.0",
+    "path": "^0.11.14",
     "react": "^0.13.3"
   },
   "devDependencies": {
@@ -19,6 +25,7 @@
     "live-reload": "^1.1.0",
     "reactify": "^1.1.1",
     "run-sequence": "^1.1.2",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.3.1"
   }
 }

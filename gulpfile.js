@@ -16,6 +16,8 @@ var runsequence = require('run-sequence');
 var del = require('del');
 var jsxcs = require('gulp-jsxcs');
 var shell = require('gulp-shell');
+var watchify = require('watchify');
+var jsxcs = require('gulp-jsxcs');
 
 var env = process.env.NODE_ENV || 'development';
 var isProd = env === 'production';
@@ -93,3 +95,22 @@ gulp.task('build', function() {
     ['browserify_bundle', 'build_styles']
   );
 });
+
+gulp.task('scripts_styleguide', function() {
+  return gulp.src(paths.jsFiles).pipe(jsxcs());
+});
+
+gulp.task('start_server', shell.task('node server.js'));
+
+gulp.task('app_watch', function() {
+  gulp.watch(paths.jsFiles, ['scripts_styleguide']);
+  gulp.watch(paths.sassFiles, ['build_styles']);
+});
+
+var serveTasks = {
+  development: ['browserify_watch', 'app_watch', 'start_server'],
+  production: ['start_server']
+};
+
+gulp.task('serve', serveTasks[env]);
+gulp.task('default', ['build', 'serve']);
