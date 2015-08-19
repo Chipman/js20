@@ -12,12 +12,14 @@ var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var concatenate = require('gulp-concat');
 var minifycss = require('gulp-minify-css');
-var runsequence = require('run-sequence');
+var runSequence = require('run-sequence');
 var del = require('del');
 var jsxcs = require('gulp-jsxcs');
 var shell = require('gulp-shell');
 var watchify = require('watchify');
-var jsxcs = require('gulp-jsxcs');
+var copy = new (require('task-copy'));
+var compiledElements = JSON.stringify(require('./app/scripts/jsonbundler.js'));
+var fs = require('fs');
 
 var env = process.env.NODE_ENV || 'development';
 var isProd = env === 'production';
@@ -31,6 +33,10 @@ paths.jsBuildFileName = 'bundle.js';
 paths.script = '/scripts';
 paths.sassFiles = '/styles/**/*.scss';
 paths.styles = '/styles';
+paths.cssBuildFileName = 'allstyles.css';
+paths.jsonFiles = '/locales/**/*.json';
+paths.json = '/locales';
+paths.initJson = '/initialdata.json';
 
 //BUILD AND WATCH SCRIPTS
 var browserifyOptions = {
@@ -69,12 +75,12 @@ function watchifyBundle() {
     .pipe(gulp.dest(paths.build + paths.script));
 }
 
-//BUILD AND WATCH STYLES
+//BUILD STYLES
 gulp.task('build_styles', function() {
   return gulp.src(paths.sassFiles)
     .pipe(gulpif(!isProd, sourcemaps.init()))
     .pipe(sass())
-    .pipe(concatenate('styles.css'))
+    .pipe(concatenate(paths.cssBuildFileName))
     .pipe(gulpif(!isProd, sourcemaps.write()))
     .pipe(gulpif(isProd, minifycss()))
     .pipe(gulp.dest(paths.build + paths.styles));
@@ -85,32 +91,56 @@ gulp.task('deleteDist', function(){
   return del(paths.build);
 });
 
+//copy json files
+gulp.task('json_move', function() {
+  //callback should exist to prevent default console.log
+  copy.run(paths.jsonFiles, {
+    dest: paths.build + paths.json
+  }, function() {console.log(process.platform)});
+});
+
+//COMPILE ELEMENTS DATA
+gulp.task('compile_elemets', function() {
+  return fs.writeFile(paths.srcRoot + paths.json + paths.initJson, compiledElements,  function (err) {
+    if (err) {
+      throw err;
+    }
+    console.log('Success: Initial data compiled!');
+  });
+});
+
 //LIVERELOAD
 gulp.task('livereload', shell.task(['live-reload --port 9091 dist/']));
 
 //BUILD
 gulp.task('build', function() {
-  runsequence(
+  runSequence(
+    'compile_elemets',
     'deleteDist',
-    ['browserify_bundle', 'build_styles']
+    ['json_move', 'browserify_bundle', 'build_styles']
   );
 });
 
-gulp.task('scripts_styleguide', function() {
-  return gulp.src(paths.jsFiles).pipe(jsxcs());
-});
+//won't work TODO: make it work
+// gulp.task('scripts_styleguide', function() {
+//   return gulp.src(paths.jsFiles).pipe(jsxcs());
+// });
+
+
+
+
 
 gulp.task('start_server', shell.task('node server.js'));
 
 gulp.task('app_watch', function() {
-  gulp.watch(paths.jsFiles, ['scripts_styleguide']);
+  // gulp.watch(paths.jsFiles, ['scripts_styleguide']);
   gulp.watch(paths.sassFiles, ['build_styles']);
 });
 
 var serveTasks = {
-  development: ['browserify_watch', 'app_watch', 'start_server'],
+  development: ['browserify_watch', 'app_watch', 'start_server', 'livereload'],
   production: ['start_server']
 };
 
 gulp.task('serve', serveTasks[env]);
-gulp.task('default', ['build', 'serve']);
+gulp.task('default', ['serve']);
