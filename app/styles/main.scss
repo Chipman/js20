@@ -1,3 +1,7 @@
+@import '_variables';
+@import '_mixins';
+
+
 body {
   background-color: #aaa;
 }
@@ -6,7 +10,14 @@ body {
   color: #444;
 }
 
-@import '/modules/_test';
+@import './modules/_banner';
+@import './modules/_location';
+@import './modules/_menu';
+@import './modules/_partners';
+@import './modules/_registration';
+@import './modules/_schedule';
+@import './modules/_speakers';
+
 
 a {
   text-decoration-color: red;

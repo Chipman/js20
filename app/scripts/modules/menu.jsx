@@ -6,7 +6,7 @@ var Menu = React.createClass({
 
     return <div>
     I am Menu
-    <div>And here is my items: {JSON.stringify(this.props.initData.data)}</div>
+    <div>And here are my items: {JSON.stringify(this.props.initData.data)}</div>
     </div>;
   }
 });

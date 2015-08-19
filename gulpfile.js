@@ -31,11 +31,11 @@ paths.jsFiles = paths.srcRoot + '/scripts/**/*.js';
 paths.jsEntry = paths.srcRoot + '/scripts/main.js';
 paths.jsBuildFileName = 'bundle.js';
 paths.script = '/scripts';
-paths.sassFiles = '/styles/**/*.scss';
+paths.sassFiles = paths.srcRoot + '/styles/**/*.scss';
 paths.styles = '/styles';
-paths.cssBuildFileName = 'allstyles.css';
-paths.jsonFiles = '/locales/**/*.json';
-paths.json = '/locales';
+paths.cssBuildFileName = '/allstyles.css';
+paths.jsonFiles = paths.srcRoot + '/locales/*';
+paths.json = '/locales/';
 paths.initJson = '/initialdata.json';
 
 //BUILD AND WATCH SCRIPTS
@@ -77,7 +77,7 @@ function watchifyBundle() {
 
 //BUILD STYLES
 gulp.task('build_styles', function() {
-  return gulp.src(paths.sassFiles)
+  gulp.src(paths.sassFiles)
     .pipe(gulpif(!isProd, sourcemaps.init()))
     .pipe(sass())
     .pipe(concatenate(paths.cssBuildFileName))
@@ -94,9 +94,8 @@ gulp.task('deleteDist', function(){
 //copy json files
 gulp.task('json_move', function() {
   //callback should exist to prevent default console.log
-  copy.run(paths.jsonFiles, {
-    dest: paths.build + paths.json
-  }, function() {console.log(process.platform)});
+  gulp.src(paths.jsonFiles)
+    .pipe(gulp.dest(paths.build + paths.json))
 });
 
 //COMPILE ELEMENTS DATA
@@ -104,8 +103,9 @@ gulp.task('compile_elemets', function() {
   return fs.writeFile(paths.srcRoot + paths.json + paths.initJson, compiledElements,  function (err) {
     if (err) {
       throw err;
+    } else {
+      console.log('Success: Initial data compiled!');
     }
-    console.log('Success: Initial data compiled!');
   });
 });
 
@@ -125,10 +125,6 @@ gulp.task('build', function() {
 // gulp.task('scripts_styleguide', function() {
 //   return gulp.src(paths.jsFiles).pipe(jsxcs());
 // });
-
-
-
-
 
 gulp.task('start_server', shell.task('node server.js'));
 
