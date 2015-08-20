@@ -1,0 +1,35 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: $primary-color;
+  padding: 0 $container-padding;
+}
+
+.menu__logo {
+  display: block;
+  height: $menu-height;
+  width: 190px;
+  background: lightgrey;
+  flex-shrink: 0;
+}
+
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.navigation__item {
+  color: $font-dark;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 0.844em;
+  margin: 0 8px;
+}
+
+.navigation__item[href="#participate"] {
+  border: 2px #333 solid;
+  margin: 0 0 0 14px;
+  padding: 6px 9px;
+}

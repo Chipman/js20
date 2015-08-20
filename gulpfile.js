@@ -109,9 +109,6 @@ gulp.task('compile_elemets', function() {
   });
 });
 
-//LIVERELOAD
-gulp.task('livereload', shell.task(['live-reload --port 9091 dist/']));
-
 //BUILD
 gulp.task('build', function() {
   runSequence(
@@ -134,7 +131,7 @@ gulp.task('app_watch', function() {
 });
 
 var serveTasks = {
-  development: ['browserify_watch', 'app_watch', 'start_server', 'livereload'],
+  development: ['browserify_watch', 'app_watch', 'start_server'],
   production: ['start_server']
 };
 

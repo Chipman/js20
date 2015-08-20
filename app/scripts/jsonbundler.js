@@ -17,12 +17,15 @@ var elements = (function elements() {
 
   function createMenu() {
     var menuData = [];
+
     for (var el in elements) {
-      var menuItem = {
-        title: elements[el].title,
-        data: elements[el].data.title
+      if (elements[el].title != 'partners') {
+        var menuItem = {
+          title: elements[el].title,
+          data: elements[el].data.title
+        }
+        menuData.push(menuItem);
       }
-      menuData.push(menuItem);
     }
     return {
       title: 'menu',

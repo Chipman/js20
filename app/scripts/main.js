@@ -7,7 +7,7 @@ var Banner = require('./modules/banner.jsx');
 var Locations = require('./modules/location.jsx');
 var Menu = require('./modules/menu.jsx');
 var Partners = require('./modules/partners.jsx');
-var Registration = require('./modules/registration.jsx');
+var Registration = require('./modules/participate.jsx');
 var Schedule = require('./modules/schedule.jsx');
 var Speakers = require('./modules/speakers.jsx');
 
@@ -15,17 +15,14 @@ var Speakers = require('./modules/speakers.jsx');
 var App = React.createClass({
   render: function() {
     return (
-      <div>
-        <h1 className="main-header">This is main file!!!</h1>
-
-        <Banner initData={initialData.banner}/>
-        <Locations initData={initialData.location}/>
+      <div className="page-wrapper">
         <Menu initData={initialData.menu}/>
-        <Partners initData={initialData.partners}/>
-        <Registration initData={initialData.registration}/>
-        <Schedule initData={initialData.schedule}/>
+        <Banner initData={initialData.banner}/>
         <Speakers initData={initialData.speakers}/>
-
+        <Schedule initData={initialData.schedule}/>
+        <Locations initData={initialData.location}/>
+        <Registration initData={initialData.participate}/>
+        <Partners initData={initialData.partners}/>
       </div>
     );
   }
