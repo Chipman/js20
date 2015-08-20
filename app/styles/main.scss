@@ -9,12 +9,12 @@ body {
   display: flex;
   justify-content: center;
   font-family: 'Oswald', sans-serif;
+  font-weight: 300;
 }
 
 .page-wrapper {
   max-width: $page-width;
   width: 100%;
-  background: #bbb;
 }
 
 @import './modules/_banner';
@@ -24,3 +24,7 @@ body {
 @import './modules/_registration';
 @import './modules/_schedule';
 @import './modules/_speakers';
+
+.menu + section {
+  margin-top: $menu-height;
+}

@@ -1,0 +1,64 @@
+.speakers-section {
+  display: flex;
+  flex-wrap: wrap;
+  padding: $container-padding;
+  justify-content: space-between;
+
+  &__header {
+    width: 100%;
+    text-align: center;
+    font-size: 1.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+.speaker {
+  width: 31.147541%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 44px;
+
+  &__picture {
+    border-radius: 50%;
+    max-width: 148px;
+    width: 90%;
+    height: auto;
+    -webkit-filter: sepia(0.9);
+    transition: all 0.2s;
+
+    &:hover {
+      -webkit-filter: none;
+    }
+  }
+
+  &__header {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.4em;
+    margin-top: 17px;
+  }
+
+  &__sub-header {
+    width: 100%;
+    text-align: center;
+    color: #E0BE35;
+    font-size: 0.81em;
+    font-weight: 600;
+    font-family: 'Calibri';
+    margin-top: 10px;
+  }
+
+  &__description {
+    color: #7E7E7E;
+    width: 93%;
+    text-align: center;
+    font-size: 0.8em;
+    font-family: 'Calibri';
+    margin-top: 13px;
+    line-height: 16px;
+  }
+}

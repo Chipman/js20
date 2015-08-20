@@ -1,9 +1,12 @@
 .menu {
+  position: fixed;
+  width: $page-width;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   background: $primary-color;
   padding: 0 $container-padding;
+  z-index: 1;
 }
 
 .menu__logo {
